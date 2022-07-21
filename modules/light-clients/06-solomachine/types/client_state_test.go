@@ -1,14 +1,14 @@
 package types_test
 
 import (
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	connectiontypes "github.com/cosmos/ibc-go/v3/modules/core/03-connection/types"
-	channeltypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
-	commitmenttypes "github.com/cosmos/ibc-go/v3/modules/core/23-commitment/types"
-	"github.com/cosmos/ibc-go/v3/modules/core/exported"
-	"github.com/cosmos/ibc-go/v3/modules/light-clients/06-solomachine/types"
-	ibctmtypes "github.com/cosmos/ibc-go/v3/modules/light-clients/07-tendermint/types"
-	ibctesting "github.com/cosmos/ibc-go/v3/testing"
+	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
+	connectiontypes "github.com/cosmos/ibc-go/v5/modules/core/03-connection/types"
+	channeltypes "github.com/cosmos/ibc-go/v5/modules/core/04-channel/types"
+	commitmenttypes "github.com/cosmos/ibc-go/v5/modules/core/23-commitment/types"
+	"github.com/cosmos/ibc-go/v5/modules/core/exported"
+	"github.com/cosmos/ibc-go/v5/modules/light-clients/06-solomachine/types"
+	ibctmtypes "github.com/cosmos/ibc-go/v5/modules/light-clients/07-tendermint/types"
+	ibctesting "github.com/cosmos/ibc-go/v5/testing"
 )
 
 const (
@@ -27,7 +27,7 @@ var (
 
 func (suite *SoloMachineTestSuite) TestStatus() {
 	clientState := suite.solomachine.ClientState()
-	// solo machine discards arguements
+	// solo machine discards arguments
 	status := clientState.Status(suite.chainA.GetContext(), nil, nil)
 	suite.Require().Equal(exported.Active, status)
 
@@ -82,7 +82,6 @@ func (suite *SoloMachineTestSuite) TestClientStateValidateBasic() {
 			tc := tc
 
 			suite.Run(tc.name, func() {
-
 				err := tc.clientState.Validate()
 
 				if tc.expPass {
@@ -238,7 +237,6 @@ func (suite *SoloMachineTestSuite) TestVerifyClientState() {
 			tc := tc
 
 			suite.Run(tc.name, func() {
-
 				var expSeq uint64
 				if tc.clientState.ConsensusState != nil {
 					expSeq = tc.clientState.Sequence + 1
@@ -359,7 +357,6 @@ func (suite *SoloMachineTestSuite) TestVerifyClientConsensusState() {
 			tc := tc
 
 			suite.Run(tc.name, func() {
-
 				var expSeq uint64
 				if tc.clientState.ConsensusState != nil {
 					expSeq = tc.clientState.Sequence + 1

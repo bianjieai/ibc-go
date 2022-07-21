@@ -3,16 +3,17 @@ package ibctesting
 import (
 	"fmt"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	connectiontypes "github.com/cosmos/ibc-go/v3/modules/core/03-connection/types"
-	channeltypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
-	commitmenttypes "github.com/cosmos/ibc-go/v3/modules/core/23-commitment/types"
-	host "github.com/cosmos/ibc-go/v3/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v3/modules/core/exported"
-	ibctmtypes "github.com/cosmos/ibc-go/v3/modules/light-clients/07-tendermint/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+
+	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
+	connectiontypes "github.com/cosmos/ibc-go/v5/modules/core/03-connection/types"
+	channeltypes "github.com/cosmos/ibc-go/v5/modules/core/04-channel/types"
+	commitmenttypes "github.com/cosmos/ibc-go/v5/modules/core/23-commitment/types"
+	host "github.com/cosmos/ibc-go/v5/modules/core/24-host"
+	"github.com/cosmos/ibc-go/v5/modules/core/exported"
+	ibctmtypes "github.com/cosmos/ibc-go/v5/modules/light-clients/07-tendermint/types"
 )
 
 // Endpoint is a which represents a channel endpoint and its associated
@@ -279,6 +280,10 @@ func (endpoint *Endpoint) ChanOpenInit() error {
 	endpoint.ChannelID, err = ParseChannelIDFromEvents(res.GetEvents())
 	require.NoError(endpoint.Chain.T, err)
 
+	// update version to selected app version
+	// NOTE: this update must be performed after SendMsgs()
+	endpoint.ChannelConfig.Version = endpoint.GetChannel().Version
+
 	return nil
 }
 
@@ -328,7 +333,14 @@ func (endpoint *Endpoint) ChanOpenAck() error {
 		proof, height,
 		endpoint.Chain.SenderAccount.GetAddress().String(),
 	)
-	return endpoint.Chain.sendMsgs(msg)
+
+	if err = endpoint.Chain.sendMsgs(msg); err != nil {
+		return err
+	}
+
+	endpoint.ChannelConfig.Version = endpoint.GetChannel().Version
+
+	return nil
 }
 
 // ChanOpenConfirm will construct and execute a MsgChannelOpenConfirm on the associated endpoint.

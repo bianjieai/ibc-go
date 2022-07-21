@@ -4,21 +4,22 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/tendermint/tendermint/libs/log"
+	db "github.com/tendermint/tm-db"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	capabilitykeeper "github.com/cosmos/cosmos-sdk/x/capability/keeper"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
-	"github.com/tendermint/tendermint/libs/log"
-	db "github.com/tendermint/tm-db"
 
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	connectiontypes "github.com/cosmos/ibc-go/v3/modules/core/03-connection/types"
-	"github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
-	porttypes "github.com/cosmos/ibc-go/v3/modules/core/05-port/types"
-	host "github.com/cosmos/ibc-go/v3/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v3/modules/core/exported"
+	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
+	connectiontypes "github.com/cosmos/ibc-go/v5/modules/core/03-connection/types"
+	"github.com/cosmos/ibc-go/v5/modules/core/04-channel/types"
+	porttypes "github.com/cosmos/ibc-go/v5/modules/core/05-port/types"
+	host "github.com/cosmos/ibc-go/v5/modules/core/24-host"
+	"github.com/cosmos/ibc-go/v5/modules/core/exported"
 )
 
 var _ porttypes.ICS4Wrapper = Keeper{}
@@ -85,6 +86,16 @@ func (k Keeper) SetChannel(ctx sdk.Context, portID, channelID string, channel ty
 	store := ctx.KVStore(k.storeKey)
 	bz := k.cdc.MustMarshal(&channel)
 	store.Set(host.ChannelKey(portID, channelID), bz)
+}
+
+// GetAppVersion gets the version for the specified channel.
+func (k Keeper) GetAppVersion(ctx sdk.Context, portID, channelID string) (string, bool) {
+	channel, found := k.GetChannel(ctx, portID, channelID)
+	if !found {
+		return "", false
+	}
+
+	return channel.Version, true
 }
 
 // GetNextChannelSequence gets the next channel sequence from the store.

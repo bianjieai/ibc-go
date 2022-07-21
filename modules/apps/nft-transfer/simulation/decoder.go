@@ -6,7 +6,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/types/kv"
 
-	"github.com/cosmos/ibc-go/v3/modules/apps/nft-transfer/types"
+	"github.com/cosmos/ibc-go/v5/modules/apps/nft-transfer/types"
 )
 
 // TransferUnmarshaler defines the expected encoding store functions.

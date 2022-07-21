@@ -5,10 +5,10 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/x/nft"
 
-	"github.com/cosmos/ibc-go/v3/modules/apps/nft-transfer/types"
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	channeltypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
-	ibctesting "github.com/cosmos/ibc-go/v3/testing"
+	"github.com/cosmos/ibc-go/v5/modules/apps/nft-transfer/types"
+	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
+	channeltypes "github.com/cosmos/ibc-go/v5/modules/core/04-channel/types"
+	ibctesting "github.com/cosmos/ibc-go/v5/testing"
 )
 
 func (suite *KeeperTestSuite) TestSendTransfer() {
@@ -170,7 +170,6 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 				Id:      nftID,
 				Uri:     nftURI,
 			}, escrowAddress)
-
 		}, false, true},
 		{"empty classID", func() {
 			classID = ""
@@ -214,7 +213,7 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 
 			packet := channeltypes.NewPacket(
 				data.GetBytes(),
-				1, //not check sequence
+				1, // not check sequence
 				path.EndpointA.ChannelConfig.PortID,
 				path.EndpointA.ChannelID,
 				path.EndpointB.ChannelConfig.PortID,
@@ -261,7 +260,7 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 func (suite *KeeperTestSuite) TestOnAcknowledgementPacket() {
 	var (
 		successAck      = channeltypes.NewResultAcknowledgement([]byte{byte(1)})
-		failedAck       = channeltypes.NewErrorAcknowledgement("failed packet transfer")
+		failedAck       = channeltypes.NewErrorAcknowledgement(fmt.Errorf("failed packet transfer"))
 		path            *ibctesting.Path
 		trace           types.ClassTrace
 		classID         string
@@ -295,7 +294,6 @@ func (suite *KeeperTestSuite) TestOnAcknowledgementPacket() {
 				Id:  ibcClassID,
 				Uri: classURI,
 			})
-
 		}, false, true},
 		{"successful refund when isAwayFromOrigin is true", failedAck, func() {
 			// if isAwayFromOrigin is true, OnAcknowledgementPacket will unescrow nft to sender
@@ -322,7 +320,6 @@ func (suite *KeeperTestSuite) TestOnAcknowledgementPacket() {
 				Id:      nftID,
 				Uri:     nftURI,
 			}, escrowAddress)
-
 		}, false, true},
 	}
 
@@ -352,7 +349,7 @@ func (suite *KeeperTestSuite) TestOnAcknowledgementPacket() {
 
 			packet := channeltypes.NewPacket(
 				data.GetBytes(),
-				1, //not check sequence
+				1, // not check sequence
 				path.EndpointA.ChannelConfig.PortID,
 				path.EndpointA.ChannelID,
 				path.EndpointB.ChannelConfig.PortID,

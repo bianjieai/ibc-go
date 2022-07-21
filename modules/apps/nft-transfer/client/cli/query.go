@@ -8,7 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/version"
 	"github.com/spf13/cobra"
 
-	"github.com/cosmos/ibc-go/v3/modules/apps/nft-transfer/types"
+	"github.com/cosmos/ibc-go/v5/modules/apps/nft-transfer/types"
 )
 
 // GetCmdQueryClassTrace defines the command to query a a class trace from a given trace hash or ibc class.

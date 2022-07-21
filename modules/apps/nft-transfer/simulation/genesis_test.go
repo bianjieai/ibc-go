@@ -12,8 +12,8 @@ import (
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/stretchr/testify/require"
 
-	"github.com/cosmos/ibc-go/v3/modules/apps/nft-transfer/simulation"
-	"github.com/cosmos/ibc-go/v3/modules/apps/nft-transfer/types"
+	"github.com/cosmos/ibc-go/v5/modules/apps/nft-transfer/simulation"
+	"github.com/cosmos/ibc-go/v5/modules/apps/nft-transfer/types"
 )
 
 // TestRandomizedGenState tests the normal scenario of applying RandomizedGenState.
@@ -42,7 +42,6 @@ func TestRandomizedGenState(t *testing.T) {
 
 	require.Equal(t, "euzxpfgkqegqiqwixnku", ibcTransferGenesis.PortId)
 	require.Len(t, ibcTransferGenesis.Traces, 0)
-
 }
 
 // TestRandomizedGenState tests abnormal scenarios of applying RandomizedGenState.

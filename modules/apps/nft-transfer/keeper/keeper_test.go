@@ -7,9 +7,9 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 
-	ibctesting "github.com/cosmos/ibc-go/v3/testing"
+	ibctesting "github.com/cosmos/ibc-go/v5/testing"
 
-	"github.com/cosmos/ibc-go/v3/modules/apps/nft-transfer/types"
+	"github.com/cosmos/ibc-go/v5/modules/apps/nft-transfer/types"
 )
 
 type KeeperTestSuite struct {

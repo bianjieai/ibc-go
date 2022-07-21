@@ -5,20 +5,21 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cosmos/cosmos-sdk/store/iavl"
-	"github.com/cosmos/cosmos-sdk/store/rootmulti"
-	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	"github.com/stretchr/testify/suite"
 	abci "github.com/tendermint/tendermint/abci/types"
 	"github.com/tendermint/tendermint/libs/log"
 	dbm "github.com/tendermint/tm-db"
 
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	"github.com/cosmos/ibc-go/v3/modules/core/03-connection/types"
-	commitmenttypes "github.com/cosmos/ibc-go/v3/modules/core/23-commitment/types"
-	ibctmtypes "github.com/cosmos/ibc-go/v3/modules/light-clients/07-tendermint/types"
-	ibctesting "github.com/cosmos/ibc-go/v3/testing"
-	"github.com/cosmos/ibc-go/v3/testing/simapp"
+	"github.com/cosmos/cosmos-sdk/store/iavl"
+	"github.com/cosmos/cosmos-sdk/store/rootmulti"
+	storetypes "github.com/cosmos/cosmos-sdk/store/types"
+
+	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
+	"github.com/cosmos/ibc-go/v5/modules/core/03-connection/types"
+	commitmenttypes "github.com/cosmos/ibc-go/v5/modules/core/23-commitment/types"
+	ibctmtypes "github.com/cosmos/ibc-go/v5/modules/light-clients/07-tendermint/types"
+	ibctesting "github.com/cosmos/ibc-go/v5/testing"
+	"github.com/cosmos/ibc-go/v5/testing/simapp"
 )
 
 var (
@@ -47,7 +48,8 @@ func (suite *MsgTestSuite) SetupTest() {
 
 	app := simapp.Setup(false)
 	db := dbm.NewMemDB()
-	store := rootmulti.NewStore(db, log.NewNopLogger())
+	dblog := log.TestingLogger()
+	store := rootmulti.NewStore(db, dblog)
 	storeKey := storetypes.NewKVStoreKey("iavlStoreKey")
 
 	store.MountStoreWithDB(storeKey, storetypes.StoreTypeIAVL, nil)
@@ -69,7 +71,6 @@ func (suite *MsgTestSuite) SetupTest() {
 	suite.Require().NoError(err)
 
 	suite.proof = proof
-
 }
 
 func TestMsgTestSuite(t *testing.T) {
@@ -82,7 +83,7 @@ func (suite *MsgTestSuite) TestNewMsgConnectionOpenInit() {
 	// will be used in protocol.
 	var version *types.Version
 
-	var testCases = []struct {
+	testCases := []struct {
 		name    string
 		msg     *types.MsgConnectionOpenInit
 		expPass bool
@@ -125,7 +126,7 @@ func (suite *MsgTestSuite) TestNewMsgConnectionOpenTry() {
 		chainID, ibctmtypes.DefaultTrustLevel, ibctesting.TrustingPeriod, ibctesting.UnbondingPeriod, ibctesting.MaxClockDrift, clienttypes.ZeroHeight(), commitmenttypes.GetSDKSpecs(), ibctesting.UpgradePath, false, false,
 	)
 
-	var testCases = []struct {
+	testCases := []struct {
 		name    string
 		msg     *types.MsgConnectionOpenTry
 		expPass bool
@@ -177,7 +178,7 @@ func (suite *MsgTestSuite) TestNewMsgConnectionOpenAck() {
 	)
 	connectionID := "connection-0"
 
-	var testCases = []struct {
+	testCases := []struct {
 		name    string
 		msg     *types.MsgConnectionOpenAck
 		expPass bool
@@ -216,7 +217,7 @@ func (suite *MsgTestSuite) TestNewMsgConnectionOpenConfirm() {
 		types.NewMsgConnectionOpenConfirm(connectionID, suite.proof, clientHeight, signer),
 	}
 
-	var testCases = []struct {
+	testCases := []struct {
 		msg     *types.MsgConnectionOpenConfirm
 		expPass bool
 		errMsg  string

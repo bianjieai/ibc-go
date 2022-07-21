@@ -7,16 +7,16 @@ import (
 	"github.com/tendermint/tendermint/crypto/tmhash"
 	tmtypes "github.com/tendermint/tendermint/types"
 
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	commitmenttypes "github.com/cosmos/ibc-go/v3/modules/core/23-commitment/types"
-	"github.com/cosmos/ibc-go/v3/modules/core/exported"
-	"github.com/cosmos/ibc-go/v3/modules/light-clients/07-tendermint/types"
-	ibctestingmock "github.com/cosmos/ibc-go/v3/testing/mock"
+	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
+	commitmenttypes "github.com/cosmos/ibc-go/v5/modules/core/23-commitment/types"
+	"github.com/cosmos/ibc-go/v5/modules/core/exported"
+	"github.com/cosmos/ibc-go/v5/modules/light-clients/07-tendermint/types"
+	ibctestingmock "github.com/cosmos/ibc-go/v5/testing/mock"
 )
 
 func (suite *TendermintTestSuite) TestCheckMisbehaviourAndUpdateState() {
 	altPrivVal := ibctestingmock.NewPV()
-	altPubKey, err := altPrivVal.GetPubKey(nil)
+	altPubKey, err := altPrivVal.GetPubKey()
 	suite.Require().NoError(err)
 
 	altVal := tmtypes.NewValidator(altPubKey, 4)

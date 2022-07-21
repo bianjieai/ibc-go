@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"math/rand"
 
-	"github.com/gorilla/mux"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
 
@@ -19,11 +18,11 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/cosmos/ibc-go/v3/modules/apps/nft-transfer/client/cli"
-	"github.com/cosmos/ibc-go/v3/modules/apps/nft-transfer/keeper"
-	"github.com/cosmos/ibc-go/v3/modules/apps/nft-transfer/simulation"
-	"github.com/cosmos/ibc-go/v3/modules/apps/nft-transfer/types"
-	porttypes "github.com/cosmos/ibc-go/v3/modules/core/05-port/types"
+	"github.com/cosmos/ibc-go/v5/modules/apps/nft-transfer/client/cli"
+	"github.com/cosmos/ibc-go/v5/modules/apps/nft-transfer/keeper"
+	"github.com/cosmos/ibc-go/v5/modules/apps/nft-transfer/simulation"
+	"github.com/cosmos/ibc-go/v5/modules/apps/nft-transfer/types"
+	porttypes "github.com/cosmos/ibc-go/v5/modules/core/05-port/types"
 )
 
 var (
@@ -66,10 +65,7 @@ func (AppModuleBasic) ValidateGenesis(cdc codec.JSONCodec, config client.TxEncod
 	return gs.Validate()
 }
 
-// RegisterRESTRoutes implements AppModuleBasic interface
-func (AppModuleBasic) RegisterRESTRoutes(clientCtx client.Context, rtr *mux.Router) {}
-
-// RegisterGRPCGatewayRoutes registers the gRPC Gateway routes for the ibc nft-transfer module.
+// RegisterGRPCGatewayRoutes registers the gRPC Gateway routes for ics29 fee module.
 func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *runtime.ServeMux) {
 	types.RegisterQueryHandlerClient(context.Background(), mux, types.NewQueryClient(clientCtx))
 }

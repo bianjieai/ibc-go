@@ -4,18 +4,19 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/suite"
 	tmbytes "github.com/tendermint/tendermint/libs/bytes"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	tmtypes "github.com/tendermint/tendermint/types"
 
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	ibctmtypes "github.com/cosmos/ibc-go/v3/modules/light-clients/07-tendermint/types"
-	ibctesting "github.com/cosmos/ibc-go/v3/testing"
-	ibctestingmock "github.com/cosmos/ibc-go/v3/testing/mock"
-	"github.com/cosmos/ibc-go/v3/testing/simapp"
+	"github.com/cosmos/cosmos-sdk/codec"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+
+	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
+	ibctmtypes "github.com/cosmos/ibc-go/v5/modules/light-clients/07-tendermint/types"
+	ibctesting "github.com/cosmos/ibc-go/v5/testing"
+	ibctestingmock "github.com/cosmos/ibc-go/v5/testing/mock"
+	"github.com/cosmos/ibc-go/v5/testing/simapp"
 )
 
 const (
@@ -79,7 +80,7 @@ func (suite *TendermintTestSuite) SetupTest() {
 
 	suite.privVal = ibctestingmock.NewPV()
 
-	pubKey, err := suite.privVal.GetPubKey(nil)
+	pubKey, err := suite.privVal.GetPubKey()
 	suite.Require().NoError(err)
 
 	heightMinus1 := clienttypes.NewHeight(0, height.RevisionHeight-1)

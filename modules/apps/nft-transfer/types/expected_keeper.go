@@ -6,8 +6,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/nft"
 
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
-	channeltypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
-	ibcexported "github.com/cosmos/ibc-go/v3/modules/core/exported"
+	channeltypes "github.com/cosmos/ibc-go/v5/modules/core/04-channel/types"
+	ibcexported "github.com/cosmos/ibc-go/v5/modules/core/exported"
 )
 
 // NFTKeeper defines the expected nft keeper

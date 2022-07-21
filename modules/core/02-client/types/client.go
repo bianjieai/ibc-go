@@ -6,12 +6,13 @@ import (
 	"sort"
 	"strings"
 
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	proto "github.com/gogo/protobuf/proto"
 
-	host "github.com/cosmos/ibc-go/v3/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v3/modules/core/exported"
+	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
+	host "github.com/cosmos/ibc-go/v5/modules/core/24-host"
+	"github.com/cosmos/ibc-go/v5/modules/core/exported"
 )
 
 var (

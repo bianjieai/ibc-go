@@ -3,21 +3,22 @@ package v100_test
 import (
 	"testing"
 
-	"github.com/cosmos/cosmos-sdk/client"
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 	"github.com/stretchr/testify/suite"
 	tmtypes "github.com/tendermint/tendermint/types"
 
-	ibcclient "github.com/cosmos/ibc-go/v3/modules/core/02-client"
-	clientv100 "github.com/cosmos/ibc-go/v3/modules/core/02-client/legacy/v100"
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	connectiontypes "github.com/cosmos/ibc-go/v3/modules/core/03-connection/types"
-	host "github.com/cosmos/ibc-go/v3/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v3/modules/core/legacy/v100"
-	"github.com/cosmos/ibc-go/v3/modules/core/types"
-	ibctesting "github.com/cosmos/ibc-go/v3/testing"
-	"github.com/cosmos/ibc-go/v3/testing/simapp"
+	"github.com/cosmos/cosmos-sdk/client"
+	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
+
+	ibcclient "github.com/cosmos/ibc-go/v5/modules/core/02-client"
+	clientv100 "github.com/cosmos/ibc-go/v5/modules/core/02-client/legacy/v100"
+	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
+	connectiontypes "github.com/cosmos/ibc-go/v5/modules/core/03-connection/types"
+	host "github.com/cosmos/ibc-go/v5/modules/core/24-host"
+	v100 "github.com/cosmos/ibc-go/v5/modules/core/legacy/v100"
+	"github.com/cosmos/ibc-go/v5/modules/core/types"
+	ibctesting "github.com/cosmos/ibc-go/v5/testing"
+	"github.com/cosmos/ibc-go/v5/testing/simapp"
 )
 
 type LegacyTestSuite struct {
@@ -77,7 +78,7 @@ func (suite *LegacyTestSuite) TestMigrateGenesisSolomachine() {
 			seq = 1
 		}
 
-		// generate old client state proto defintion
+		// generate old client state proto definition
 		legacyClientState := &clientv100.ClientState{
 			Sequence:       clientState.Sequence,
 			FrozenSequence: seq,

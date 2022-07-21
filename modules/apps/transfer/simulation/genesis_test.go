@@ -5,21 +5,24 @@ import (
 	"math/rand"
 	"testing"
 
-	sdkmath "cosmossdk.io/math"
-	"github.com/cosmos/cosmos-sdk/codec"
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	"github.com/cosmos/cosmos-sdk/types/module"
-	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
+	"cosmossdk.io/math"
 	"github.com/stretchr/testify/require"
 
-	"github.com/cosmos/ibc-go/v3/modules/apps/transfer/simulation"
-	"github.com/cosmos/ibc-go/v3/modules/apps/transfer/types"
+	"github.com/cosmos/cosmos-sdk/codec"
+	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
+	"github.com/cosmos/cosmos-sdk/types/module"
+	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
+
+	"github.com/cosmos/ibc-go/v5/modules/apps/transfer/simulation"
+	"github.com/cosmos/ibc-go/v5/modules/apps/transfer/types"
 )
 
 // TestRandomizedGenState tests the normal scenario of applying RandomizedGenState.
 // Abonormal scenarios are not tested here.
 func TestRandomizedGenState(t *testing.T) {
 	interfaceRegistry := codectypes.NewInterfaceRegistry()
+	cryptocodec.RegisterInterfaces(interfaceRegistry)
 	cdc := codec.NewProtoCodec(interfaceRegistry)
 
 	s := rand.NewSource(1)
@@ -31,7 +34,7 @@ func TestRandomizedGenState(t *testing.T) {
 		Rand:         r,
 		NumBonded:    3,
 		Accounts:     simtypes.RandomAccounts(r, 3),
-		InitialStake: sdkmath.NewInt(1000),
+		InitialStake: math.NewInt(1000),
 		GenState:     make(map[string]json.RawMessage),
 	}
 
@@ -44,7 +47,6 @@ func TestRandomizedGenState(t *testing.T) {
 	require.True(t, ibcTransferGenesis.Params.SendEnabled)
 	require.True(t, ibcTransferGenesis.Params.ReceiveEnabled)
 	require.Len(t, ibcTransferGenesis.DenomTraces, 0)
-
 }
 
 // TestRandomizedGenState tests abnormal scenarios of applying RandomizedGenState.

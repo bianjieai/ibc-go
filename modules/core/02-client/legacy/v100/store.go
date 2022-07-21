@@ -11,12 +11,12 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	host "github.com/cosmos/ibc-go/v3/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v3/modules/core/exported"
-	smtypes "github.com/cosmos/ibc-go/v3/modules/light-clients/06-solomachine/types"
-	ibctmtypes "github.com/cosmos/ibc-go/v3/modules/light-clients/07-tendermint/types"
+	"github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
+	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
+	host "github.com/cosmos/ibc-go/v5/modules/core/24-host"
+	"github.com/cosmos/ibc-go/v5/modules/core/exported"
+	smtypes "github.com/cosmos/ibc-go/v5/modules/light-clients/06-solomachine/types"
+	ibctmtypes "github.com/cosmos/ibc-go/v5/modules/light-clients/07-tendermint/types"
 )
 
 // MigrateStore performs in-place store migrations from SDK v0.40 of the IBC module to v1.0.0 of ibc-go.
@@ -111,7 +111,7 @@ func MigrateStore(ctx sdk.Context, storeKey storetypes.StoreKey, cdc codec.Binar
 	return nil
 }
 
-// migrateSolomachine migrates the solomachine from v1 to v2 solo machine protobuf defintion.
+// migrateSolomachine migrates the solomachine from v1 to v2 solo machine protobuf definition.
 func migrateSolomachine(clientState *ClientState) *smtypes.ClientState {
 	isFrozen := clientState.FrozenSequence != 0
 	consensusState := &smtypes.ConsensusState{

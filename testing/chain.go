@@ -6,6 +6,14 @@ import (
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/require"
+	abci "github.com/tendermint/tendermint/abci/types"
+	"github.com/tendermint/tendermint/crypto/tmhash"
+	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
+	tmprotoversion "github.com/tendermint/tendermint/proto/tendermint/version"
+	tmtypes "github.com/tendermint/tendermint/types"
+	tmversion "github.com/tendermint/tendermint/version"
+
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
@@ -18,21 +26,15 @@ import (
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
 	"github.com/cosmos/cosmos-sdk/x/staking/teststaking"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	"github.com/stretchr/testify/require"
-	abci "github.com/tendermint/tendermint/abci/types"
-	"github.com/tendermint/tendermint/crypto/tmhash"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
-	tmtypes "github.com/tendermint/tendermint/types"
-	tmversion "github.com/tendermint/tendermint/version"
 
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	commitmenttypes "github.com/cosmos/ibc-go/v3/modules/core/23-commitment/types"
-	host "github.com/cosmos/ibc-go/v3/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v3/modules/core/exported"
-	"github.com/cosmos/ibc-go/v3/modules/core/types"
-	ibctmtypes "github.com/cosmos/ibc-go/v3/modules/light-clients/07-tendermint/types"
-	"github.com/cosmos/ibc-go/v3/testing/mock"
-	"github.com/cosmos/ibc-go/v3/testing/simapp"
+	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
+	commitmenttypes "github.com/cosmos/ibc-go/v5/modules/core/23-commitment/types"
+	host "github.com/cosmos/ibc-go/v5/modules/core/24-host"
+	"github.com/cosmos/ibc-go/v5/modules/core/exported"
+	"github.com/cosmos/ibc-go/v5/modules/core/types"
+	ibctmtypes "github.com/cosmos/ibc-go/v5/modules/light-clients/07-tendermint/types"
+	"github.com/cosmos/ibc-go/v5/testing/mock"
+	"github.com/cosmos/ibc-go/v5/testing/simapp"
 )
 
 var MaxAccounts = 10
@@ -165,7 +167,7 @@ func NewTestChain(t *testing.T, coord *Coordinator, chainID string) *TestChain {
 
 	for i := 0; i < validatorsPerChain; i++ {
 		privVal := mock.NewPV()
-		pubKey, err := privVal.GetPubKey(context.Background())
+		pubKey, err := privVal.GetPubKey()
 		require.NoError(t, err)
 		validators = append(validators, tmtypes.NewValidator(pubKey, 1))
 		signersByAddress[pubKey.Address().String()] = privVal
@@ -451,7 +453,7 @@ func (chain *TestChain) CreateTMClientHeader(chainID string, blockHeight int64, 
 	nextValHash := nextVals.Hash()
 
 	tmHeader := tmtypes.Header{
-		Version:            tmversion.Consensus{Block: tmversion.BlockProtocol, App: 2},
+		Version:            tmprotoversion.Consensus{Block: tmversion.BlockProtocol, App: 2},
 		ChainID:            chainID,
 		Height:             blockHeight,
 		Time:               timestamp,

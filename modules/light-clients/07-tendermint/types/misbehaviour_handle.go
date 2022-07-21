@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"time"
 
+	tmtypes "github.com/tendermint/tendermint/types"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	tmtypes "github.com/tendermint/tendermint/types"
 
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	"github.com/cosmos/ibc-go/v3/modules/core/exported"
+	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
+	"github.com/cosmos/ibc-go/v5/modules/core/exported"
 )
 
 // CheckMisbehaviourAndUpdateState determines whether or not two conflicting
@@ -50,12 +51,11 @@ func (cs ClientState) CheckMisbehaviourAndUpdateState(
 		if bytes.Equal(blockID1.Hash, blockID2.Hash) {
 			return nil, sdkerrors.Wrap(clienttypes.ErrInvalidMisbehaviour, "headers block hashes are equal")
 		}
-	} else {
-		// Header1 is at greater height than Header2, therefore Header1 time must be less than or equal to
-		// Header2 time in order to be valid misbehaviour (violation of monotonic time).
-		if tmMisbehaviour.Header1.SignedHeader.Header.Time.After(tmMisbehaviour.Header2.SignedHeader.Header.Time) {
-			return nil, sdkerrors.Wrap(clienttypes.ErrInvalidMisbehaviour, "headers are not at same height and are monotonically increasing")
-		}
+	}
+	// Header1 is at greater height than Header2, therefore Header1 time must be less than or equal to
+	// Header2 time in order to be valid misbehaviour (violation of monotonic time).
+	if tmMisbehaviour.Header1.SignedHeader.Header.Time.After(tmMisbehaviour.Header2.SignedHeader.Header.Time) {
+		return nil, sdkerrors.Wrap(clienttypes.ErrInvalidMisbehaviour, "headers are not at same height and are monotonically increasing")
 	}
 
 	// Regardless of the type of misbehaviour, ensure that both headers are valid and would have been accepted by light-client
@@ -101,7 +101,6 @@ func (cs ClientState) CheckMisbehaviourAndUpdateState(
 func checkMisbehaviourHeader(
 	clientState *ClientState, consState *ConsensusState, header *Header, currentTimestamp time.Time,
 ) error {
-
 	tmTrustedValset, err := tmtypes.ValidatorSetFromProto(header.TrustedValidators)
 	if err != nil {
 		return sdkerrors.Wrap(err, "trusted validator set is not tendermint validator set type")

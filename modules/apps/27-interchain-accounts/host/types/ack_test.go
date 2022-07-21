@@ -21,7 +21,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	"github.com/cosmos/ibc-go/v3/testing/simapp/params"
+	"github.com/cosmos/ibc-go/v5/testing/simapp/params"
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/suite"
 	abci "github.com/tendermint/tendermint/abci/types"
@@ -29,10 +29,10 @@ import (
 	tmprotostate "github.com/tendermint/tendermint/proto/tendermint/state"
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/cosmos/ibc-go/v3/modules/apps/27-interchain-accounts/host/types"
-	ibcclientcli "github.com/cosmos/ibc-go/v3/modules/core/02-client/client/cli"
-	ibctesting "github.com/cosmos/ibc-go/v3/testing"
-	"github.com/cosmos/ibc-go/v3/testing/simapp"
+	"github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/host/types"
+	ibcclientcli "github.com/cosmos/ibc-go/v5/modules/core/02-client/client/cli"
+	ibctesting "github.com/cosmos/ibc-go/v5/testing"
+	"github.com/cosmos/ibc-go/v5/testing/simapp"
 )
 
 type IntegrationTestSuite struct {

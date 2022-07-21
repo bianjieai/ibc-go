@@ -3,16 +3,17 @@ package keeper
 import (
 	"context"
 
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	"github.com/cosmos/ibc-go/v3/modules/core/03-connection/types"
-	host "github.com/cosmos/ibc-go/v3/modules/core/24-host"
+	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
+	"github.com/cosmos/ibc-go/v5/modules/core/03-connection/types"
+	host "github.com/cosmos/ibc-go/v5/modules/core/24-host"
 )
 
 var _ types.QueryServer = Keeper{}
@@ -68,7 +69,6 @@ func (q Keeper) Connections(c context.Context, req *types.QueryConnectionsReques
 		connections = append(connections, &identifiedConnection)
 		return nil
 	})
-
 	if err != nil {
 		return nil, err
 	}
@@ -137,7 +137,6 @@ func (q Keeper) ConnectionClientState(c context.Context, req *types.QueryConnect
 
 	height := clienttypes.GetSelfHeight(ctx)
 	return types.NewQueryConnectionClientStateResponse(identifiedClientState, nil, height), nil
-
 }
 
 // ConnectionConsensusState implements the Query/ConnectionConsensusState gRPC method

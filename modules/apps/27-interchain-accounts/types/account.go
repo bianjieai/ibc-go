@@ -5,12 +5,13 @@ import (
 	"regexp"
 	"strings"
 
+	yaml "gopkg.in/yaml.v2"
+
 	crypto "github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkaddress "github.com/cosmos/cosmos-sdk/types/address"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	yaml "gopkg.in/yaml.v2"
 )
 
 var (
@@ -106,7 +107,6 @@ func (ia InterchainAccount) MarshalYAML() ([]byte, error) {
 		Sequence:      ia.Sequence,
 		AccountOwner:  ia.AccountOwner,
 	})
-
 	if err != nil {
 		return nil, err
 	}
@@ -128,7 +128,6 @@ func (ia InterchainAccount) MarshalJSON() ([]byte, error) {
 		Sequence:      ia.Sequence,
 		AccountOwner:  ia.AccountOwner,
 	})
-
 	if err != nil {
 		return nil, err
 	}
