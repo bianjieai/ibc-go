@@ -23,11 +23,11 @@ import (
 	tmtypes "github.com/tendermint/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/cosmos/ibc-go/v3/modules/core/keeper"
-	"github.com/cosmos/ibc-go/v3/testing/simapp"
+	"github.com/cosmos/ibc-go/v5/modules/core/keeper"
+	"github.com/cosmos/ibc-go/v5/testing/simapp"
 )
 
-var DefaultTestingAppInit func() (TestingApp, map[string]json.RawMessage) = SetupTestingApp
+var DefaultTestingAppInit = SetupTestingApp
 
 type TestingApp interface {
 	abci.Application

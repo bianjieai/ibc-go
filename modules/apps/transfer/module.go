@@ -17,11 +17,11 @@ import (
 	"github.com/spf13/cobra"
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	"github.com/cosmos/ibc-go/v3/modules/apps/transfer/client/cli"
-	"github.com/cosmos/ibc-go/v3/modules/apps/transfer/keeper"
-	"github.com/cosmos/ibc-go/v3/modules/apps/transfer/simulation"
-	"github.com/cosmos/ibc-go/v3/modules/apps/transfer/types"
-	porttypes "github.com/cosmos/ibc-go/v3/modules/core/05-port/types"
+	"github.com/cosmos/ibc-go/v5/modules/apps/transfer/client/cli"
+	"github.com/cosmos/ibc-go/v5/modules/apps/transfer/keeper"
+	"github.com/cosmos/ibc-go/v5/modules/apps/transfer/simulation"
+	"github.com/cosmos/ibc-go/v5/modules/apps/transfer/types"
+	porttypes "github.com/cosmos/ibc-go/v5/modules/core/05-port/types"
 )
 
 var (
@@ -70,7 +70,10 @@ func (AppModuleBasic) RegisterRESTRoutes(clientCtx client.Context, rtr *mux.Rout
 
 // RegisterGRPCGatewayRoutes registers the gRPC Gateway routes for the ibc-transfer module.
 func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *runtime.ServeMux) {
-	types.RegisterQueryHandlerClient(context.Background(), mux, types.NewQueryClient(clientCtx))
+	err := types.RegisterQueryHandlerClient(context.Background(), mux, types.NewQueryClient(clientCtx))
+	if err != nil {
+		panic(err)
+	}
 }
 
 // GetTxCmd implements AppModuleBasic interface
@@ -120,6 +123,11 @@ func (am AppModule) LegacyQuerierHandler(*codec.LegacyAmino) sdk.Querier {
 func (am AppModule) RegisterServices(cfg module.Configurator) {
 	types.RegisterMsgServer(cfg.MsgServer(), am.keeper)
 	types.RegisterQueryServer(cfg.QueryServer(), am.keeper)
+
+	m := keeper.NewMigrator(am.keeper)
+	if err := cfg.RegisterMigration(types.ModuleName, 1, m.MigrateTraces); err != nil {
+		panic(fmt.Sprintf("failed to migrate transfer app from version 1 to 2: %v", err))
+	}
 }
 
 // InitGenesis performs genesis initialization for the ibc-transfer module. It returns
@@ -139,7 +147,7 @@ func (am AppModule) ExportGenesis(ctx sdk.Context, cdc codec.JSONCodec) json.Raw
 }
 
 // ConsensusVersion implements AppModule/ConsensusVersion.
-func (AppModule) ConsensusVersion() uint64 { return 1 }
+func (AppModule) ConsensusVersion() uint64 { return 2 }
 
 // BeginBlock implements the AppModule interface
 func (am AppModule) BeginBlock(ctx sdk.Context, req abci.RequestBeginBlock) {
