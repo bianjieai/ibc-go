@@ -23,6 +23,42 @@
   
     - [Type](#ibc.applications.interchain_accounts.v1.Type)
   
+- [ibc/applications/nft_transfer/v1/transfer.proto](#ibc/applications/nft_transfer/v1/transfer.proto)
+    - [ClassTrace](#ibc.applications.nft_transfer.v1.ClassTrace)
+  
+- [ibc/applications/nft_transfer/v1/genesis.proto](#ibc/applications/nft_transfer/v1/genesis.proto)
+    - [GenesisState](#ibc.applications.nft_transfer.v1.GenesisState)
+  
+- [ibc/applications/nft_transfer/v1/packet.proto](#ibc/applications/nft_transfer/v1/packet.proto)
+    - [NonFungibleTokenPacketData](#ibc.applications.nft_transfer.v1.NonFungibleTokenPacketData)
+  
+- [ibc/applications/nft_transfer/v1/query.proto](#ibc/applications/nft_transfer/v1/query.proto)
+    - [QueryClassHashRequest](#ibc.applications.nft_transfer.v1.QueryClassHashRequest)
+    - [QueryClassHashResponse](#ibc.applications.nft_transfer.v1.QueryClassHashResponse)
+    - [QueryClassTraceRequest](#ibc.applications.nft_transfer.v1.QueryClassTraceRequest)
+    - [QueryClassTraceResponse](#ibc.applications.nft_transfer.v1.QueryClassTraceResponse)
+    - [QueryClassTracesRequest](#ibc.applications.nft_transfer.v1.QueryClassTracesRequest)
+    - [QueryClassTracesResponse](#ibc.applications.nft_transfer.v1.QueryClassTracesResponse)
+    - [QueryEscrowAddressRequest](#ibc.applications.nft_transfer.v1.QueryEscrowAddressRequest)
+    - [QueryEscrowAddressResponse](#ibc.applications.nft_transfer.v1.QueryEscrowAddressResponse)
+  
+    - [Query](#ibc.applications.nft_transfer.v1.Query)
+  
+- [ibc/core/client/v1/client.proto](#ibc/core/client/v1/client.proto)
+    - [ClientConsensusStates](#ibc.core.client.v1.ClientConsensusStates)
+    - [ClientUpdateProposal](#ibc.core.client.v1.ClientUpdateProposal)
+    - [ConsensusStateWithHeight](#ibc.core.client.v1.ConsensusStateWithHeight)
+    - [Height](#ibc.core.client.v1.Height)
+    - [IdentifiedClientState](#ibc.core.client.v1.IdentifiedClientState)
+    - [Params](#ibc.core.client.v1.Params)
+    - [UpgradeProposal](#ibc.core.client.v1.UpgradeProposal)
+  
+- [ibc/applications/nft_transfer/v1/tx.proto](#ibc/applications/nft_transfer/v1/tx.proto)
+    - [MsgTransfer](#ibc.applications.nft_transfer.v1.MsgTransfer)
+    - [MsgTransferResponse](#ibc.applications.nft_transfer.v1.MsgTransferResponse)
+  
+    - [Msg](#ibc.applications.nft_transfer.v1.Msg)
+  
 - [ibc/applications/transfer/v1/transfer.proto](#ibc/applications/transfer/v1/transfer.proto)
     - [DenomTrace](#ibc.applications.transfer.v1.DenomTrace)
     - [Params](#ibc.applications.transfer.v1.Params)
@@ -43,15 +79,6 @@
     - [QueryParamsResponse](#ibc.applications.transfer.v1.QueryParamsResponse)
   
     - [Query](#ibc.applications.transfer.v1.Query)
-  
-- [ibc/core/client/v1/client.proto](#ibc/core/client/v1/client.proto)
-    - [ClientConsensusStates](#ibc.core.client.v1.ClientConsensusStates)
-    - [ClientUpdateProposal](#ibc.core.client.v1.ClientUpdateProposal)
-    - [ConsensusStateWithHeight](#ibc.core.client.v1.ConsensusStateWithHeight)
-    - [Height](#ibc.core.client.v1.Height)
-    - [IdentifiedClientState](#ibc.core.client.v1.IdentifiedClientState)
-    - [Params](#ibc.core.client.v1.Params)
-    - [UpgradeProposal](#ibc.core.client.v1.UpgradeProposal)
   
 - [ibc/applications/transfer/v1/tx.proto](#ibc/applications/transfer/v1/tx.proto)
     - [MsgTransfer](#ibc.applications.transfer.v1.MsgTransfer)
@@ -507,6 +534,473 @@ host
 
 
 
+<a name="ibc/applications/nft_transfer/v1/transfer.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## ibc/applications/nft_transfer/v1/transfer.proto
+
+
+
+<a name="ibc.applications.nft_transfer.v1.ClassTrace"></a>
+
+### ClassTrace
+ClassTrace contains the base classID for ICS721 non-fungible tokens and the
+source tracing information path.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `path` | [string](#string) |  | path defines the chain of port/channel identifiers used for tracing the source of the non-fungible token. |
+| `base_class_id` | [string](#string) |  | base classID of the relayed non-fungible token. |
+
+
+
+
+
+ <!-- end messages -->
+
+ <!-- end enums -->
+
+ <!-- end HasExtensions -->
+
+ <!-- end services -->
+
+
+
+<a name="ibc/applications/nft_transfer/v1/genesis.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## ibc/applications/nft_transfer/v1/genesis.proto
+
+
+
+<a name="ibc.applications.nft_transfer.v1.GenesisState"></a>
+
+### GenesisState
+GenesisState defines the ibc-nft-transfer genesis state
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `port_id` | [string](#string) |  |  |
+| `traces` | [ClassTrace](#ibc.applications.nft_transfer.v1.ClassTrace) | repeated |  |
+
+
+
+
+
+ <!-- end messages -->
+
+ <!-- end enums -->
+
+ <!-- end HasExtensions -->
+
+ <!-- end services -->
+
+
+
+<a name="ibc/applications/nft_transfer/v1/packet.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## ibc/applications/nft_transfer/v1/packet.proto
+
+
+
+<a name="ibc.applications.nft_transfer.v1.NonFungibleTokenPacketData"></a>
+
+### NonFungibleTokenPacketData
+NonFungibleTokenPacketData defines a struct for the packet payload
+See NonFungibleTokenPacketData spec:
+https://github.com/cosmos/ibc/tree/master/spec/app/ics-721-nft-transfer#data-structures
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `class_id` | [string](#string) |  | the class_id of tokens to be transferred |
+| `class_uri` | [string](#string) |  | the class_uri of tokens to be transferred |
+| `token_ids` | [string](#string) | repeated | the non fungible tokens to be transferred |
+| `token_uris` | [string](#string) | repeated | the non fungible tokens's uri to be transferred |
+| `sender` | [string](#string) |  | the sender address |
+| `receiver` | [string](#string) |  | the recipient address on the destination chain |
+
+
+
+
+
+ <!-- end messages -->
+
+ <!-- end enums -->
+
+ <!-- end HasExtensions -->
+
+ <!-- end services -->
+
+
+
+<a name="ibc/applications/nft_transfer/v1/query.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## ibc/applications/nft_transfer/v1/query.proto
+
+
+
+<a name="ibc.applications.nft_transfer.v1.QueryClassHashRequest"></a>
+
+### QueryClassHashRequest
+QueryClassHashRequest is the request type for the Query/ClassHash RPC
+method
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `trace` | [string](#string) |  | The class trace ([port_id]/[channel_id])+/[denom] |
+
+
+
+
+
+
+<a name="ibc.applications.nft_transfer.v1.QueryClassHashResponse"></a>
+
+### QueryClassHashResponse
+QueryClassHashResponse is the response type for the Query/ClassHash RPC
+method.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `hash` | [string](#string) |  | hash (in hex format) of the denomination trace information. |
+
+
+
+
+
+
+<a name="ibc.applications.nft_transfer.v1.QueryClassTraceRequest"></a>
+
+### QueryClassTraceRequest
+QueryClassTraceRequest is the request type for the Query/ClassDenom RPC
+method
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `hash` | [string](#string) |  | hash (in hex format) or classID (full classID with ibc prefix) of the denomination trace information. |
+
+
+
+
+
+
+<a name="ibc.applications.nft_transfer.v1.QueryClassTraceResponse"></a>
+
+### QueryClassTraceResponse
+QueryClassTraceResponse is the response type for the Query/ClassDenom RPC
+method.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `class_trace` | [ClassTrace](#ibc.applications.nft_transfer.v1.ClassTrace) |  | class_trace returns the requested class trace information. |
+
+
+
+
+
+
+<a name="ibc.applications.nft_transfer.v1.QueryClassTracesRequest"></a>
+
+### QueryClassTracesRequest
+QueryConnectionsRequest is the request type for the Query/ClassTraces RPC
+method
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  | pagination defines an optional pagination for the request. |
+
+
+
+
+
+
+<a name="ibc.applications.nft_transfer.v1.QueryClassTracesResponse"></a>
+
+### QueryClassTracesResponse
+QueryClassTracesResponse is the response type for the Query/ClassTraces RPC
+method.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `class_traces` | [ClassTrace](#ibc.applications.nft_transfer.v1.ClassTrace) | repeated | class_traces returns all class trace information. |
+| `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  | pagination defines the pagination in the response. |
+
+
+
+
+
+
+<a name="ibc.applications.nft_transfer.v1.QueryEscrowAddressRequest"></a>
+
+### QueryEscrowAddressRequest
+QueryEscrowAddressRequest is the request type for the EscrowAddress RPC method.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `port_id` | [string](#string) |  | unique port identifier |
+| `channel_id` | [string](#string) |  | unique channel identifier |
+
+
+
+
+
+
+<a name="ibc.applications.nft_transfer.v1.QueryEscrowAddressResponse"></a>
+
+### QueryEscrowAddressResponse
+QueryEscrowAddressResponse is the response type of the EscrowAddress RPC method.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `escrow_address` | [string](#string) |  | the escrow account address |
+
+
+
+
+
+ <!-- end messages -->
+
+ <!-- end enums -->
+
+ <!-- end HasExtensions -->
+
+
+<a name="ibc.applications.nft_transfer.v1.Query"></a>
+
+### Query
+Query provides defines the gRPC querier service.
+
+| Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
+| ----------- | ------------ | ------------- | ------------| ------- | -------- |
+| `ClassTrace` | [QueryClassTraceRequest](#ibc.applications.nft_transfer.v1.QueryClassTraceRequest) | [QueryClassTraceResponse](#ibc.applications.nft_transfer.v1.QueryClassTraceResponse) | ClassTrace queries a class trace information. | GET|/ibc/apps/nft_transfer/v1/class_traces/{hash}|
+| `ClassTraces` | [QueryClassTracesRequest](#ibc.applications.nft_transfer.v1.QueryClassTracesRequest) | [QueryClassTracesResponse](#ibc.applications.nft_transfer.v1.QueryClassTracesResponse) | ClassTraces queries all class traces. | GET|/ibc/apps/nft_transfer/v1/class_traces|
+| `ClassHash` | [QueryClassHashRequest](#ibc.applications.nft_transfer.v1.QueryClassHashRequest) | [QueryClassHashResponse](#ibc.applications.nft_transfer.v1.QueryClassHashResponse) | ClassHash queries a class hash information. | GET|/ibc/apps/nft_transfer/v1/class_hashes/{trace}|
+| `EscrowAddress` | [QueryEscrowAddressRequest](#ibc.applications.nft_transfer.v1.QueryEscrowAddressRequest) | [QueryEscrowAddressResponse](#ibc.applications.nft_transfer.v1.QueryEscrowAddressResponse) | EscrowAddress returns the escrow address for a particular port and channel id. | GET|/ibc/apps/nft_transfer/v1/channels/{channel_id}/ports/{port_id}/escrow_address|
+
+ <!-- end services -->
+
+
+
+<a name="ibc/core/client/v1/client.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## ibc/core/client/v1/client.proto
+
+
+
+<a name="ibc.core.client.v1.ClientConsensusStates"></a>
+
+### ClientConsensusStates
+ClientConsensusStates defines all the stored consensus states for a given
+client.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `client_id` | [string](#string) |  | client identifier |
+| `consensus_states` | [ConsensusStateWithHeight](#ibc.core.client.v1.ConsensusStateWithHeight) | repeated | consensus states and their heights associated with the client |
+
+
+
+
+
+
+<a name="ibc.core.client.v1.ClientUpdateProposal"></a>
+
+### ClientUpdateProposal
+ClientUpdateProposal is a governance proposal. If it passes, the substitute
+client's latest consensus state is copied over to the subject client. The proposal
+handler may fail if the subject and the substitute do not match in client and
+chain parameters (with exception to latest height, frozen height, and chain-id).
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `title` | [string](#string) |  | the title of the update proposal |
+| `description` | [string](#string) |  | the description of the proposal |
+| `subject_client_id` | [string](#string) |  | the client identifier for the client to be updated if the proposal passes |
+| `substitute_client_id` | [string](#string) |  | the substitute client identifier for the client standing in for the subject client |
+
+
+
+
+
+
+<a name="ibc.core.client.v1.ConsensusStateWithHeight"></a>
+
+### ConsensusStateWithHeight
+ConsensusStateWithHeight defines a consensus state with an additional height
+field.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `height` | [Height](#ibc.core.client.v1.Height) |  | consensus state height |
+| `consensus_state` | [google.protobuf.Any](#google.protobuf.Any) |  | consensus state |
+
+
+
+
+
+
+<a name="ibc.core.client.v1.Height"></a>
+
+### Height
+Height is a monotonically increasing data type
+that can be compared against another Height for the purposes of updating and
+freezing clients
+
+Normally the RevisionHeight is incremented at each height while keeping
+RevisionNumber the same. However some consensus algorithms may choose to
+reset the height in certain conditions e.g. hard forks, state-machine
+breaking changes In these cases, the RevisionNumber is incremented so that
+height continues to be monitonically increasing even as the RevisionHeight
+gets reset
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `revision_number` | [uint64](#uint64) |  | the revision that the client is currently on |
+| `revision_height` | [uint64](#uint64) |  | the height within the given revision |
+
+
+
+
+
+
+<a name="ibc.core.client.v1.IdentifiedClientState"></a>
+
+### IdentifiedClientState
+IdentifiedClientState defines a client state with an additional client
+identifier field.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `client_id` | [string](#string) |  | client identifier |
+| `client_state` | [google.protobuf.Any](#google.protobuf.Any) |  | client state |
+
+
+
+
+
+
+<a name="ibc.core.client.v1.Params"></a>
+
+### Params
+Params defines the set of IBC light client parameters.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `allowed_clients` | [string](#string) | repeated | allowed_clients defines the list of allowed client state types. |
+
+
+
+
+
+
+<a name="ibc.core.client.v1.UpgradeProposal"></a>
+
+### UpgradeProposal
+UpgradeProposal is a gov Content type for initiating an IBC breaking
+upgrade.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `title` | [string](#string) |  |  |
+| `description` | [string](#string) |  |  |
+| `plan` | [cosmos.upgrade.v1beta1.Plan](#cosmos.upgrade.v1beta1.Plan) |  |  |
+| `upgraded_client_state` | [google.protobuf.Any](#google.protobuf.Any) |  | An UpgradedClientState must be provided to perform an IBC breaking upgrade. This will make the chain commit to the correct upgraded (self) client state before the upgrade occurs, so that connecting chains can verify that the new upgraded client is valid by verifying a proof on the previous version of the chain. This will allow IBC connections to persist smoothly across planned chain upgrades |
+
+
+
+
+
+ <!-- end messages -->
+
+ <!-- end enums -->
+
+ <!-- end HasExtensions -->
+
+ <!-- end services -->
+
+
+
+<a name="ibc/applications/nft_transfer/v1/tx.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## ibc/applications/nft_transfer/v1/tx.proto
+
+
+
+<a name="ibc.applications.nft_transfer.v1.MsgTransfer"></a>
+
+### MsgTransfer
+MsgTransfer defines a msg to transfer non fungible tokens between
+ICS721 enabled chains. See ICS Spec here:
+https://github.com/cosmos/ibc/tree/master/spec/app/ics-721-nft-transfer#data-structures
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| `source_port` | [string](#string) |  | the port on which the packet will be sent |
+| `source_channel` | [string](#string) |  | the channel by which the packet will be sent |
+| `class_id` | [string](#string) |  | the class_id of tokens to be transferred |
+| `token_ids` | [string](#string) | repeated | the non fungible tokens to be transferred |
+| `sender` | [string](#string) |  | the sender address |
+| `receiver` | [string](#string) |  | the recipient address on the destination chain |
+| `timeout_height` | [ibc.core.client.v1.Height](#ibc.core.client.v1.Height) |  | Timeout height relative to the current block height. The timeout is disabled when set to 0. |
+| `timeout_timestamp` | [uint64](#uint64) |  | Timeout timestamp in absolute nanoseconds since unix epoch. The timeout is disabled when set to 0. |
+
+
+
+
+
+
+<a name="ibc.applications.nft_transfer.v1.MsgTransferResponse"></a>
+
+### MsgTransferResponse
+MsgTransferResponse defines the Msg/Transfer response type.
+
+
+
+
+
+ <!-- end messages -->
+
+ <!-- end enums -->
+
+ <!-- end HasExtensions -->
+
+
+<a name="ibc.applications.nft_transfer.v1.Msg"></a>
+
+### Msg
+Msg defines the ibc/nft-transfer Msg service.
+
+| Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
+| ----------- | ------------ | ------------- | ------------| ------- | -------- |
+| `Transfer` | [MsgTransfer](#ibc.applications.nft_transfer.v1.MsgTransfer) | [MsgTransferResponse](#ibc.applications.nft_transfer.v1.MsgTransferResponse) | Transfer defines a rpc handler method for MsgTransfer. | |
+
+ <!-- end services -->
+
+
+
 <a name="ibc/applications/transfer/v1/transfer.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -770,153 +1264,6 @@ Query provides defines the gRPC querier service.
 | `Params` | [QueryParamsRequest](#ibc.applications.transfer.v1.QueryParamsRequest) | [QueryParamsResponse](#ibc.applications.transfer.v1.QueryParamsResponse) | Params queries all parameters of the ibc-transfer module. | GET|/ibc/apps/transfer/v1/params|
 | `DenomHash` | [QueryDenomHashRequest](#ibc.applications.transfer.v1.QueryDenomHashRequest) | [QueryDenomHashResponse](#ibc.applications.transfer.v1.QueryDenomHashResponse) | DenomHash queries a denomination hash information. | GET|/ibc/apps/transfer/v1/denom_hashes/{trace}|
 | `EscrowAddress` | [QueryEscrowAddressRequest](#ibc.applications.transfer.v1.QueryEscrowAddressRequest) | [QueryEscrowAddressResponse](#ibc.applications.transfer.v1.QueryEscrowAddressResponse) | EscrowAddress returns the escrow address for a particular port and channel id. | GET|/ibc/apps/transfer/v1/channels/{channel_id}/ports/{port_id}/escrow_address|
-
- <!-- end services -->
-
-
-
-<a name="ibc/core/client/v1/client.proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## ibc/core/client/v1/client.proto
-
-
-
-<a name="ibc.core.client.v1.ClientConsensusStates"></a>
-
-### ClientConsensusStates
-ClientConsensusStates defines all the stored consensus states for a given
-client.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| `client_id` | [string](#string) |  | client identifier |
-| `consensus_states` | [ConsensusStateWithHeight](#ibc.core.client.v1.ConsensusStateWithHeight) | repeated | consensus states and their heights associated with the client |
-
-
-
-
-
-
-<a name="ibc.core.client.v1.ClientUpdateProposal"></a>
-
-### ClientUpdateProposal
-ClientUpdateProposal is a governance proposal. If it passes, the substitute
-client's latest consensus state is copied over to the subject client. The proposal
-handler may fail if the subject and the substitute do not match in client and
-chain parameters (with exception to latest height, frozen height, and chain-id).
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| `title` | [string](#string) |  | the title of the update proposal |
-| `description` | [string](#string) |  | the description of the proposal |
-| `subject_client_id` | [string](#string) |  | the client identifier for the client to be updated if the proposal passes |
-| `substitute_client_id` | [string](#string) |  | the substitute client identifier for the client standing in for the subject client |
-
-
-
-
-
-
-<a name="ibc.core.client.v1.ConsensusStateWithHeight"></a>
-
-### ConsensusStateWithHeight
-ConsensusStateWithHeight defines a consensus state with an additional height
-field.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| `height` | [Height](#ibc.core.client.v1.Height) |  | consensus state height |
-| `consensus_state` | [google.protobuf.Any](#google.protobuf.Any) |  | consensus state |
-
-
-
-
-
-
-<a name="ibc.core.client.v1.Height"></a>
-
-### Height
-Height is a monotonically increasing data type
-that can be compared against another Height for the purposes of updating and
-freezing clients
-
-Normally the RevisionHeight is incremented at each height while keeping
-RevisionNumber the same. However some consensus algorithms may choose to
-reset the height in certain conditions e.g. hard forks, state-machine
-breaking changes In these cases, the RevisionNumber is incremented so that
-height continues to be monitonically increasing even as the RevisionHeight
-gets reset
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| `revision_number` | [uint64](#uint64) |  | the revision that the client is currently on |
-| `revision_height` | [uint64](#uint64) |  | the height within the given revision |
-
-
-
-
-
-
-<a name="ibc.core.client.v1.IdentifiedClientState"></a>
-
-### IdentifiedClientState
-IdentifiedClientState defines a client state with an additional client
-identifier field.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| `client_id` | [string](#string) |  | client identifier |
-| `client_state` | [google.protobuf.Any](#google.protobuf.Any) |  | client state |
-
-
-
-
-
-
-<a name="ibc.core.client.v1.Params"></a>
-
-### Params
-Params defines the set of IBC light client parameters.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| `allowed_clients` | [string](#string) | repeated | allowed_clients defines the list of allowed client state types. |
-
-
-
-
-
-
-<a name="ibc.core.client.v1.UpgradeProposal"></a>
-
-### UpgradeProposal
-UpgradeProposal is a gov Content type for initiating an IBC breaking
-upgrade.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| `title` | [string](#string) |  |  |
-| `description` | [string](#string) |  |  |
-| `plan` | [cosmos.upgrade.v1beta1.Plan](#cosmos.upgrade.v1beta1.Plan) |  |  |
-| `upgraded_client_state` | [google.protobuf.Any](#google.protobuf.Any) |  | An UpgradedClientState must be provided to perform an IBC breaking upgrade. This will make the chain commit to the correct upgraded (self) client state before the upgrade occurs, so that connecting chains can verify that the new upgraded client is valid by verifying a proof on the previous version of the chain. This will allow IBC connections to persist smoothly across planned chain upgrades |
-
-
-
-
-
- <!-- end messages -->
-
- <!-- end enums -->
-
- <!-- end HasExtensions -->
 
  <!-- end services -->
 
